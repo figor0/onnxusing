@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task_for_cpp_test", "task_for_cpp_test\task_for_cpp_test.csproj", "{CA82D8D0-E4AD-485C-9B05-5FC365B90987}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA82D8D0-E4AD-485C-9B05-5FC365B90987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA82D8D0-E4AD-485C-9B05-5FC365B90987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA82D8D0-E4AD-485C-9B05-5FC365B90987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA82D8D0-E4AD-485C-9B05-5FC365B90987}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6769FF65-E7D8-4C31-B6CE-00623419B8A2}
+	EndGlobalSection
+EndGlobal
