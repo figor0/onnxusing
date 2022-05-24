@@ -9,6 +9,20 @@ include(FindPkgConfig)
 
 find_package(dlib REQUIRED)
 
-add_executable(task2 main.cpp)
+include_directories(include)
 
-target_link_libraries(task2 PUBLIC dlib::dlib onnxruntime)
+set(SOURCES
+    src/SingleLineChineeseParser.cpp
+    )
+
+set(HEADERS
+    include/neurolang/ITextParsingService.h
+    include/neurolang/SingleLineChineeseParser.h
+    include/neurolang/helpers.h
+    )
+
+add_library(neurolang ${SOURCES} ${HEADERS})
+
+add_executable(task2 main.cpp )
+
+target_link_libraries(task2 neurolang dlib::dlib onnxruntime)
