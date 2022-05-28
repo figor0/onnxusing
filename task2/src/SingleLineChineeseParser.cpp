@@ -2,6 +2,8 @@
 #include <dlib/image_transforms.h>
 #include <neurolang/helpers.h>
 
+namespace neurolang
+{
 using SLCP = SingleLineChineeseParser;
 struct SLCP::Private
 {
@@ -196,16 +198,16 @@ std::basic_string<wchar_t> SLCP::parse(const dlib::array2d<dlib::bgr_pixel> &img
                   floatarr_row + alphabet_size * (index + 1),
                   floatarr[index][0].data());
     }
-    std::map<std::vector<float>, int> unique;
 
-    std::wstring ch_alphabet = readAlphabet<wchar_t>("alphabet_chinese.txt");
     std::wstring result;
     for (size_t i = 0; i < floatarr.size(); ++i)
     {
         auto begin = floatarr[i][0].begin();
         auto end = floatarr[i][0].end();
         size_t max_index = std::min_element(begin, end) - begin;
-        result.push_back(ch_alphabet[max_index]);
+        result.push_back(m_impl->settings.alphabet[max_index]);
     }
     return result;
+}
+
 }

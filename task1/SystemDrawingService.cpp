@@ -2,7 +2,7 @@
 #include <dlib/image_loader/load_image.h>
 #include <dlib/image_transforms.h>
 #include <dlib/image_saver/image_saver.h>
-
+#include <dlib/image_saver/save_png.h>
 #include "SystemDrawingService.h"
 
 void SystemDrawingService::drawRectangles(const  std::string &source_name,
@@ -11,13 +11,13 @@ void SystemDrawingService::drawRectangles(const  std::string &source_name,
                                           const std::vector<dlib::rectangle> &rects)
 {
     dlib::array2d<dlib::bgr_pixel> image;
-    dlib::load_image(image, source_name);
+    dlib::load_png(image, source_name);
 
     for (const auto& rect: rects)
     {
         dlib::draw_rectangle(image, rect, color);
     }
-    dlib::save_bmp(image, out_name);
+    dlib::save_png(image, out_name);
 }
 
 void SystemDrawingService::saveImageFromFloat(const std::string &outName,

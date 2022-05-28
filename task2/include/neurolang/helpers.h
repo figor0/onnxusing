@@ -5,6 +5,8 @@
 #include <iostream>
 #include <codecvt>
 
+namespace neurolang
+{
 template<typename T>
 using vector2d = std::vector<std::vector<T>>;
 
@@ -128,4 +130,6 @@ std::basic_string<Code> readAlphabet(const std::string& filePath)
                   std::back_inserter(result));
     }
     return result;
+}
+
 }

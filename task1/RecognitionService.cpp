@@ -218,7 +218,12 @@ float RecognitionService::maxFromTextMap(const vector3d<float> &textMap,
             }
         }
     }
-    return *std::max_element(retval.begin(), retval.end());
+    float max_value = 0;
+    auto max_value_it = std::max_element(retval.begin(), retval.end());
+    if ( max_value_it != retval.end() ){
+        max_value = *max_value_it;
+    }
+    return max_value;
 }
 
 void RecognitionService::replace(vector3d<float> &segmap,

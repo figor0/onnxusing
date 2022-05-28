@@ -1,6 +1,9 @@
 #pragma once
 #include <neurolang/ITextParsingService.h>
 
+namespace neurolang
+{
+
 class SingleLineChineeseParser: public ITextParsingService<wchar_t>
 {
 public:
@@ -19,3 +22,5 @@ private:
     void defaultSetup();
     std::unique_ptr<Private> m_impl;
 };
+
+}

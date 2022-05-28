@@ -15,6 +15,9 @@ vector3d<float> Calculation::threshold(const vector3d<float> &map,
             for ( size_t i2 = 0; i2 < score[i0][i1].size(); ++i2 )
             {
                 score[i0][i1][i2] = map.at(i0).at(i1).at(i2) < customThresh ? 0 : 1;
+                if ( score[i0][i1][i2] == 1 ){
+                    float wtf = 1;
+                }
             }
         }
     }
@@ -45,7 +48,7 @@ vector3d<float> Calculation::clip(const vector3d<float> &text_score,
                 } else if ( score >= 1 ){
                     score = 1;
                 }
-                text_score_comb[i0][i1][i2];
+                text_score_comb[i0][i1][i2] = score;
             }
         }
     }
@@ -67,6 +70,9 @@ vector3d<float> Calculation::padInitArray(const vector3d<float> &map,
             for ( size_t i2 = 0; i2 + 1 < lim[i0][i1].size(); ++i2)
             {
                 float result = map.at(i0).at(i1).at(i2) == 0 ? -1 : -5;
+                if ( result == -5 ){
+                    float wtf = 0;
+                }
                 lim[i0][i1+1][i2+1] = result;
             }
         }
@@ -185,7 +191,8 @@ std::vector<float> Calculation::unique(const vector3d<float> &lim,
             }
         }
     }
-    std::vector<float> arr(unique.size());
+    std::vector<float> arr;
+    arr.reserve(unique.size());
 
     std::copy(unique.begin(), unique.end(), std::back_inserter(arr));
     return arr;

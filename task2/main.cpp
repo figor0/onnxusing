@@ -29,11 +29,11 @@ int main()
     std::ifstream model_reader("model_chinese_new.onnx",
                          std::ios_base::binary | std::ios_base::in);
 
-    std::string model = loadAllFile<wchar_t>(model_reader);
+    std::string model = loadAllFile<char>(model_reader);
 
-    std::wstring chin_alphabet = readAlphabet<wchar_t>("alphabet_chinese.txt");
+    std::wstring chin_alphabet = neurolang::readAlphabet<wchar_t>("alphabet_chinese.txt");
 
-    SingleLineChineeseParser service;
+    neurolang::SingleLineChineeseParser service;
     service.setUpInfo({model, chin_alphabet});
 
     dlib::array2d<dlib::bgr_pixel> image;

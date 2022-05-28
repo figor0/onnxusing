@@ -4,6 +4,8 @@
 #include <onnxruntime/core/session/onnxruntime_cxx_api.h>
 #include <dlib/array2d.h>
 
+namespace neurolang
+{
 template<typename Code>
 struct RecognitionSettings
 {
@@ -22,3 +24,4 @@ public:
     virtual std::basic_string<Code>
         parse(const dlib::array2d<dlib::bgr_pixel>& image) = 0;
 };
+}

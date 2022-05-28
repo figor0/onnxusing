@@ -30,7 +30,7 @@ int main()
     auto rectangles = service.getFragmentsCraft();
 
     SystemDrawingService::drawRectangles(imgFileName,
-                                         "craft_rectangles.jpg",
+                                         "craft_rectangles.png",
                                          dlib::bgr_pixel(0, 255, 0),
                                          rectangles);
 
