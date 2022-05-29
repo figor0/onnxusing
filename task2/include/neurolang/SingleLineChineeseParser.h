@@ -18,6 +18,9 @@ public:
 
     std::wstring parse(const dlib::array2d<dlib::bgr_pixel> &image) override;
 private:
+    void allRelease();
+    std::vector<char*> getInputNodeNames(const Ort::Session& session);
+    std::vector<char*> getOutputNodeNames(const Ort::Session& session);
     struct Private;
     void defaultSetup();
     std::unique_ptr<Private> m_impl;

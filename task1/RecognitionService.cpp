@@ -35,19 +35,19 @@ std::vector<dlib::rectangle> RecognitionService::getFragmentsCraft()
                                              m_height/2,
                                              m_width/2);
 #if DEBUG
-    SystemDrawingService::saveImageFromFloat("text_score.jpg",
+    SystemDrawingService::saveImageFromFloat("text_score",
                                              m_textmap,
                                              m_width/2,
                                              m_height/2);
-    SystemDrawingService::saveImageFromFloat("link_score.jpg",
+    SystemDrawingService::saveImageFromFloat("link_score",
                                              m_linkmap,
                                              m_width/2,
-                                             m_height/2)
-        #endif
-            auto text_score_comb = Calculation::clip(text_score,
-                                                     link_score,
-                                                     m_height/2,
-                                                     m_width/2);
+                                             m_height/2);
+#endif
+    auto text_score_comb = Calculation::clip(text_score,
+                                             link_score,
+                                             m_height/2,
+                                             m_width/2);
     auto lim = Calculation::padInitArray(text_score_comb,
                                          m_height/2,
                                          m_width/2);
@@ -77,7 +77,7 @@ std::vector<dlib::rectangle>
                                              const vector3d<float> &link_score,
                                              const vector3d<float> &text_score)
 {
-    std::vector<dlib::rectangle> rect;
+    std::vector<dlib::rectangle> rects;
     //        std::vector<float> x,y;
     std::vector<CraftComponent> stats;
 
@@ -87,20 +87,20 @@ std::vector<dlib::rectangle>
     for (size_t i = 0; i < unique.size(); ++i)
     {
         auto [x, y] = getComponent(labels, height, width, unique[i]);
-                if ( x.size() != 0 && y.size() != 0)
+        if ( x.size() != 0 && y.size() != 0)
         {
-            int x_min = *std::min_element(x.begin(), x.end());
-            int x_max = *std::max_element(x.begin(), x.end());
+            int min_x = *std::min_element(x.begin(), x.end());
+            int max_x = *std::max_element(x.begin(), x.end());
 
-            int y_min = *std::min_element(y.begin(), y.end());
-            int y_max = *std::max_element(y.begin(), y.end());
+            int min_y = *std::min_element(y.begin(), y.end());
+            int max_y = *std::max_element(y.begin(), y.end());
 
             CraftComponent component;
-            component.min_x = x_min;
-            component.min_y = y_min;
+            component.min_x = min_x;
+            component.min_y = min_y;
 
-            component.width = x_max - x_min + 1;
-            component.height = y_max - y_min + 1;
+            component.width = max_x - min_x + 1;
+            component.height = max_y - min_y + 1;
 
             component.square = x.size();
 
@@ -137,7 +137,7 @@ std::vector<dlib::rectangle>
                 {
                     float link_value = link_score[i0][i1][i2];
                     float text_value = text_score[i0][i1][i2];
-                    if ( link_value == 1 && text_value )
+                    if ( link_value == 1 && text_value == 0 )
                     {
                         segmap[i0][i1][i2] = 0;
                     }
@@ -160,12 +160,12 @@ std::vector<dlib::rectangle>
         ex = ex >= (int)width ? (int)width : ex;
         ey = ey >= (int)height ? (int)height : ey;
 
-        int width1 = ex - sx;
-        int height1 = ey - sy;
-
-        rect.push_back({sx * 2, sy * 2, width1 * 2, height1 * 2});
+//        int width1 = ex - sx;
+//        int height1 = ey - sy;
+        auto rect = dlib::rectangle{sx * 2, sy * 2, ex * 2, ey * 2};
+        rects.push_back(rect);
     }
-    return rect;
+    return rects;
 }
 
 std::pair<std::vector<float>, std::vector<float> >

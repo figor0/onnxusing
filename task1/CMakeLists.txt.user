@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-05-22T16:53:00. -->
+<!-- Written by QtCreator 4.11.0, 2022-05-30T02:03:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -74,6 +74,7 @@
      <value type="QString">CMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
      <value type="QString">CMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}</value>
      <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
+     <value type="QString">PROFILE:BOOL=ON</value>
      <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
     </valuelist>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/figoro/programming/projects/build-task1-Desktop_Qt_5_14_0_GCC_64bit_with_cmake_3_23-Debug</value>
@@ -197,7 +198,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/tmp/QtCreator-LyeEIN/qtc-cmake-JaKofHbR</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/figoro/programming/projects/build-task1-Desktop_Qt_5_14_0_GCC_64bit_with_cmake_3_23-Debug</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

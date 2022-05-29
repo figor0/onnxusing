@@ -26,18 +26,18 @@ std::string loadAllFile(std::ifstream& reader)
 
 int main()
 {
-    std::ifstream model_reader("model_chinese_new.onnx",
+    std::ifstream model_reader("resources/model_chinese_new.onnx",
                          std::ios_base::binary | std::ios_base::in);
 
     std::string model = loadAllFile<char>(model_reader);
 
-    std::wstring chin_alphabet = neurolang::readAlphabet<wchar_t>("alphabet_chinese.txt");
+    std::wstring chin_alphabet = neurolang::readAlphabet<wchar_t>("resources/alphabet_chinese.txt");
 
     neurolang::SingleLineChineeseParser service;
     service.setUpInfo({model, chin_alphabet});
 
     dlib::array2d<dlib::bgr_pixel> image;
-    dlib::load_image(image, "norm_img_line.png");
+    dlib::load_image(image, "resources/norm_img_line.png");
 
     auto result = service.parse(image);
 

@@ -25,7 +25,17 @@ void SystemDrawingService::saveImageFromFloat(const std::string &outName,
                                               size_t width,
                                               size_t height)
 {
+    dlib::array2d<unsigned char> out_img;
+    out_img.set_size(height, width);
+    for (size_t i0 = 0; i0 < width; ++i0 )
+    {
+        for ( size_t i1 = 0; i1 < height; ++i1)
+        {
+            out_img[i1][i0] = static_cast<unsigned char>(arr[0][i1][i0] * 255);
+        }
+    }
 
+    dlib::save_png(out_img, outName + ".png");
 }
 
 std::vector<std::string> split(const std::string& data,

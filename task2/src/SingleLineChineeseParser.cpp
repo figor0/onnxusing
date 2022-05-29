@@ -14,7 +14,21 @@ struct SLCP::Private
 
     std::vector<std::string> input_nodes_names;
     std::vector<std::string> output_nodes_names;
+    Ort::AllocatorWithDefaultOptions allocator;
 
+    std::vector<char*> inn;
+    std::vector<char*> onn;
+
+    void release(std::vector<char*>& vector)
+    {
+        for(char* ptr: vector )
+        {
+            if ( ptr != nullptr ){
+                allocator.Free(ptr);
+            }
+        }
+        vector.clear();
+    }
 };
 
 constexpr int batch_size = 1;
@@ -40,7 +54,7 @@ SLCP::SingleLineChineeseParser(std::shared_ptr<Ort::Env> env,
 
 SingleLineChineeseParser::~SingleLineChineeseParser()
 {
-
+    allRelease();
 }
 
 void SLCP::setEnv(std::shared_ptr<Ort::Env> env)
@@ -67,6 +81,12 @@ void SLCP::setOptions(std::shared_ptr<Ort::SessionOptions> opt)
     if ( opt == nullptr)
         throw std::runtime_error("setOpt - wtf MAN!!!");
     m_impl->options = opt;
+}
+
+void SingleLineChineeseParser::allRelease()
+{
+    m_impl->release(m_impl->inn);
+    m_impl->release(m_impl->onn);
 }
 
 void SingleLineChineeseParser::defaultSetup()
@@ -97,7 +117,7 @@ inline std::vector<float> prepare(const dlib::array2d<float>& data)
     }
     return retval;
 }
-std::vector<char*> getInputNodeNames(const Ort::Session& session)
+std::vector<char*> SLCP::getInputNodeNames(const Ort::Session& session)
 {
     /// input_node_names - inn
     std::vector<char*> inn;
@@ -106,21 +126,20 @@ std::vector<char*> getInputNodeNames(const Ort::Session& session)
     Ort::AllocatorWithDefaultOptions allocator;
     for(decltype (inn_size) index = 0; index < inn_size; ++index)
     {
-        char* raw_name = session.GetInputName(index, allocator);
+        char* raw_name = session.GetInputName(index, m_impl->allocator);
         inn.push_back(raw_name);
     }
     return inn;
 }
 
-std::vector<char*> getOutputNodeNames(const Ort::Session& session)
+std::vector<char*> SLCP::getOutputNodeNames(const Ort::Session& session)
 {
     std::vector<char*> onn;
     auto onn_size = session.GetInputCount();
     onn.reserve(onn_size);
-    Ort::AllocatorWithDefaultOptions allocator;
     for(decltype (onn_size) index = 0; index < onn_size; ++index)
     {
-        onn.push_back(session.GetOutputName(index, allocator));
+        onn.push_back(session.GetOutputName(index, m_impl->allocator));
     }
     return onn;
 }
@@ -170,14 +189,14 @@ std::basic_string<wchar_t> SLCP::parse(const dlib::array2d<dlib::bgr_pixel> &img
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator,
                                                   OrtMemTypeDefault);
 
-    auto input_node_names = getInputNodeNames(*m_impl->session);
-    auto output_node_names = getOutputNodeNames(*m_impl->session);
+    m_impl->inn = getInputNodeNames(*m_impl->session);
+    m_impl->onn = getOutputNodeNames(*m_impl->session);
 
     auto out_tesors = runSession(*m_impl->session,
                                  lines_batch,
                                  memory_info,
-                                 input_node_names,
-                                 output_node_names);
+                                 m_impl->inn,
+                                 m_impl->onn);
 
     assert(out_tesors.front().front().IsTensor());
 
@@ -207,6 +226,7 @@ std::basic_string<wchar_t> SLCP::parse(const dlib::array2d<dlib::bgr_pixel> &img
         size_t max_index = std::min_element(begin, end) - begin;
         result.push_back(m_impl->settings.alphabet[max_index]);
     }
+    allRelease();
     return result;
 }
 

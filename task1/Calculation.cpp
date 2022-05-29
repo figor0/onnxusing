@@ -7,7 +7,7 @@ vector3d<float> Calculation::threshold(const vector3d<float> &map,
 {
     vector3d<float> score;
     resize(score, 1, height, width);
-    assert(hasSameSizes(score, map));
+//    assert(hasSameSizes(score, map));
     for ( size_t i0 = 0; i0 < score.size(); ++i0)
     {
         for ( size_t i1 = 0; i1 < score[i0].size(); ++i1 )
@@ -15,9 +15,6 @@ vector3d<float> Calculation::threshold(const vector3d<float> &map,
             for ( size_t i2 = 0; i2 < score[i0][i1].size(); ++i2 )
             {
                 score[i0][i1][i2] = map.at(i0).at(i1).at(i2) < customThresh ? 0 : 1;
-                if ( score[i0][i1][i2] == 1 ){
-                    float wtf = 1;
-                }
             }
         }
     }
@@ -32,8 +29,8 @@ vector3d<float> Calculation::clip(const vector3d<float> &text_score,
     vector3d<float> text_score_comb;
     resize(text_score_comb, 1, height, width);
 
-    assert(hasSameSizes(text_score, text_score_comb));
-    assert(hasSameSizes(link_score, text_score_comb));
+//    assert(hasSameSizes(text_score, text_score_comb));
+//    assert(hasSameSizes(link_score, text_score_comb));
 
     for ( size_t i0 = 0; i0 < text_score_comb.size(); ++i0)
     {
@@ -61,7 +58,7 @@ vector3d<float> Calculation::padInitArray(const vector3d<float> &map,
 {
     vector3d<float> lim;
     resize(lim, 1, height + 1, width + 1 );
-    assert(hasSameSizes(map, 1, height, width));
+//    assert(hasSameSizes(map, 1, height, width));
 
     for (size_t i0 = 0; i0 < lim.size(); ++i0)
     {
@@ -70,9 +67,6 @@ vector3d<float> Calculation::padInitArray(const vector3d<float> &map,
             for ( size_t i2 = 0; i2 + 1 < lim[i0][i1].size(); ++i2)
             {
                 float result = map.at(i0).at(i1).at(i2) == 0 ? -1 : -5;
-                if ( result == -5 ){
-                    float wtf = 0;
-                }
                 lim[i0][i1+1][i2+1] = result;
             }
         }
@@ -98,7 +92,7 @@ vector3d<float> Calculation::padDeleteArray(const vector3d<float> &map,
 {
     vector3d<float> lim;
     resize(lim, 1, height - 1, width - 1 );
-    assert(hasSameSizes(map, 1, height, width));
+//    assert(hasSameSizes(map, 1, height, width));
 
     for (size_t i0 = 0; i0 < lim.size(); ++i0)
     {
@@ -178,7 +172,7 @@ std::vector<float> Calculation::unique(const vector3d<float> &lim,
                                        size_t height,
                                        size_t width)
 {
-    assert(hasSameSizes(lim, 1, height, width));
+//    assert(hasSameSizes(lim, 1, height, width));
     std::unordered_set<float> unique;
     for (size_t i0 = 0; i0 < 1; ++i0)
     {
