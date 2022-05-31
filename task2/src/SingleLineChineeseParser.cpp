@@ -223,11 +223,11 @@ std::basic_string<wchar_t> SLCP::parse(const dlib::array2d<dlib::bgr_pixel> &img
     {
         auto begin = floatarr[i][0].begin();
         auto end = floatarr[i][0].end();
-        size_t max_index = std::min_element(begin, end) - begin;
-        result.push_back(m_impl->settings.alphabet[max_index]);
+        size_t max_index = std::max_element(begin, end) - begin;
+        result.push_back(m_impl->settings.alphabet[max_index - 1]);
     }
     allRelease();
     return result;
 }
-
+/// критерий отфильтровывания
 }

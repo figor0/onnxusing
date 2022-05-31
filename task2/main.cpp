@@ -41,7 +41,9 @@ int main()
 
     auto result = service.parse(image);
 
-    std::wcout << result << std::endl;
+    std::wofstream result_reader("result.txt");
+
+    result_reader << result << std::endl;
 
     return 0;
 }
