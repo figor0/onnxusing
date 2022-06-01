@@ -2,21 +2,6 @@
 #include <iostream>
 #include <set>
 
-void print(const std::vector<float> &data)
-{
-for ( const auto& item: data)
-{
-std::cout << item << ", ";
-}
-}
-
-void print(const std::vector<std::vector<float> > &data)
-{
-  for ( const auto& item: data ){
-      print(item);
-      std::cout << "\n";
-  }
-}
 //ok
 vector3d<float> Calculation::threshold(const vector3d<float> &map,
                                        float customThresh,

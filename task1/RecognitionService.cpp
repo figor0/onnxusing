@@ -60,7 +60,6 @@ std::vector<dlib::rectangle> RecognitionService::getFragmentsCraft()
     new_w--;
 
     size_t N = Calculation::reLabeling(new_lim, new_h, new_w);
-    print(new_lim[0]);
     (void)N;
     return getBoudingBoxes(new_lim,
                            new_h,
