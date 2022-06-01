@@ -8,11 +8,14 @@ template <typename T>
 using vector3d = std::vector<vector2d<T>>;
 
 template<typename T>
-void resize(vector2d<T>& data, size_t first_dim, size_t second_dim)
+void resize(vector2d<T>& data,
+            size_t first_dim,
+            size_t second_dim,
+            T value)
 {
     data.resize(first_dim);
     for (auto& item: data){
-        item.resize(second_dim);
+        item.resize(second_dim, value);
     }
 }
 
@@ -20,11 +23,12 @@ template<typename T>
 void resize(vector3d<T>& data,
             size_t first_dim,
             size_t second_dim,
-            size_t thirst_dim)
+            size_t thirst_dim,
+            T value)
 {
     data.resize(first_dim);
     for(auto& item: data){
-        resize(item, second_dim, thirst_dim);
+        resize(item, second_dim, thirst_dim, value);
     }
 }
 

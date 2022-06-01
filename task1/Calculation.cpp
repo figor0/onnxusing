@@ -1,12 +1,30 @@
 #include "Calculation.h"
+#include <iostream>
+#include <set>
 
+void print(const std::vector<float> &data)
+{
+for ( const auto& item: data)
+{
+std::cout << item << ", ";
+}
+}
+
+void print(const std::vector<std::vector<float> > &data)
+{
+  for ( const auto& item: data ){
+      print(item);
+      std::cout << "\n";
+  }
+}
+//ok
 vector3d<float> Calculation::threshold(const vector3d<float> &map,
                                        float customThresh,
                                        size_t height,
                                        size_t width)
 {
     vector3d<float> score;
-    resize(score, 1, height, width);
+    resize(score, 1, height, width, 0.0f);
 //    assert(hasSameSizes(score, map));
     for ( size_t i0 = 0; i0 < score.size(); ++i0)
     {
@@ -21,13 +39,14 @@ vector3d<float> Calculation::threshold(const vector3d<float> &map,
     return score;
 }
 
+//ok
 vector3d<float> Calculation::clip(const vector3d<float> &text_score,
                                   const vector3d<float> &link_score,
                                   size_t height,
                                   size_t width)
 {
     vector3d<float> text_score_comb;
-    resize(text_score_comb, 1, height, width);
+    resize(text_score_comb, 1, height, width, 0.0f);
 
 //    assert(hasSameSizes(text_score, text_score_comb));
 //    assert(hasSameSizes(link_score, text_score_comb));
@@ -52,12 +71,13 @@ vector3d<float> Calculation::clip(const vector3d<float> &text_score,
     return text_score_comb;
 }
 
+//ok
 vector3d<float> Calculation::padInitArray(const vector3d<float> &map,
                                           size_t height,
                                           size_t width)
 {
     vector3d<float> lim;
-    resize(lim, 1, height + 1, width + 1 );
+    resize(lim, 1, height + 1, width + 1, 0.0f);
 //    assert(hasSameSizes(map, 1, height, width));
 
     for (size_t i0 = 0; i0 < lim.size(); ++i0)
@@ -85,13 +105,13 @@ vector3d<float> Calculation::padInitArray(const vector3d<float> &map,
     }
     return lim;
 }
-
+//ok
 vector3d<float> Calculation::padDeleteArray(const vector3d<float> &map,
                                             size_t height,
                                             size_t width)
 {
     vector3d<float> lim;
-    resize(lim, 1, height - 1, width - 1 );
+    resize(lim, 1, height - 1, width - 1, 0.0f);
 //    assert(hasSameSizes(map, 1, height, width));
 
     for (size_t i0 = 0; i0 < lim.size(); ++i0)
@@ -111,7 +131,7 @@ vector3d<float> Calculation::padDeleteArray(const vector3d<float> &map,
     }
     return lim;
 }
-
+//ok
 void Calculation::labeling(vector3d<float> &lim,
                            size_t height,
                            size_t width)
@@ -119,9 +139,9 @@ void Calculation::labeling(vector3d<float> &lim,
     float L = 0;
     for (size_t i0 = 0; i0 < lim.size(); ++i0)
     {
-        for ( size_t i1 = 0; i1 < lim[i0].size(); ++i1)
+        for ( size_t i1 = 1; i1 < lim[i0].size(); ++i1)
         {
-            for ( size_t i2 = 0; i2 < lim[i0][i1].size(); ++i2)
+            for ( size_t i2 = 1; i2 < lim[i0][i1].size(); ++i2)
             {
                 float cp = lim[i0][i1][i2];
                 if ( cp == -5 )
@@ -145,7 +165,7 @@ void Calculation::labeling(vector3d<float> &lim,
         }
     }
 }
-
+//ok
 int Calculation::reLabeling(vector3d<float> &lim,
                             size_t height,
                             size_t width)
@@ -161,19 +181,19 @@ int Calculation::reLabeling(vector3d<float> &lim,
         float searched  = unique_data[v];
         if ( searched != 0 ) {
             replace(lim, height, width, searched, k);
+            ++k;
         }
-
-        ++k;
     }
     return unique_data.size();
 }
-
+#include <iostream>
+//ok
 std::vector<float> Calculation::unique(const vector3d<float> &lim,
                                        size_t height,
                                        size_t width)
 {
 //    assert(hasSameSizes(lim, 1, height, width));
-    std::unordered_set<float> unique;
+    std::set<float> unique;
     for (size_t i0 = 0; i0 < 1; ++i0)
     {
         for ( size_t i1 = 0; i1 < height; ++i1)
@@ -185,13 +205,9 @@ std::vector<float> Calculation::unique(const vector3d<float> &lim,
             }
         }
     }
-    std::vector<float> arr;
-    arr.reserve(unique.size());
-
-    std::copy(unique.begin(), unique.end(), std::back_inserter(arr));
-    return arr;
+    return {unique.begin(), unique.end()};
 }
-
+//ok
 void Calculation::replace(vector3d<float> &lim,
                           size_t height,
                           size_t width,
@@ -200,9 +216,9 @@ void Calculation::replace(vector3d<float> &lim,
 {
     for (size_t i0 = 0; i0 < 1; ++i0)
     {
-        for ( size_t i1 = 0; i1 < height; ++i1)
+        for ( size_t i1 = 1; i1 < height; ++i1)
         {
-            for ( size_t i2 = 0; i2 < width; ++i2)
+            for ( size_t i2 = 1; i2 < width; ++i2)
             {
                 if ( lim[i0][i1][i2] == equal ){
                     lim[i0][i1][i2] = replace;

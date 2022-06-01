@@ -14,8 +14,8 @@ RecognitionService::RecognitionService(const std::string &imageFilePath,
     size_t half_height = m_height/2;
     size_t half_width = m_width/2;
 
-    resize(m_textmap, 1, half_height, half_width);
-    resize(m_linkmap, 1, half_height, half_width);
+    resize(m_textmap, 1, half_height, half_width, 0.0f);
+    resize(m_linkmap, 1, half_height, half_width, 0.0f);
 
     SystemDrawingService::loadFloatArrFromFile(textMapFilePath,
                                                m_textmap);
@@ -34,7 +34,7 @@ std::vector<dlib::rectangle> RecognitionService::getFragmentsCraft()
                                              m_link_threshold,
                                              m_height/2,
                                              m_width/2);
-#if DEBUG
+//#if DEBUG
     SystemDrawingService::saveImageFromFloat("text_score",
                                              m_textmap,
                                              m_width/2,
@@ -43,7 +43,7 @@ std::vector<dlib::rectangle> RecognitionService::getFragmentsCraft()
                                              m_linkmap,
                                              m_width/2,
                                              m_height/2);
-#endif
+//#endif
     auto text_score_comb = Calculation::clip(text_score,
                                              link_score,
                                              m_height/2,
@@ -60,6 +60,7 @@ std::vector<dlib::rectangle> RecognitionService::getFragmentsCraft()
     new_w--;
 
     size_t N = Calculation::reLabeling(new_lim, new_h, new_w);
+    print(new_lim[0]);
     (void)N;
     return getBoudingBoxes(new_lim,
                            new_h,
@@ -86,8 +87,9 @@ std::vector<dlib::rectangle>
 
     for (size_t i = 0; i < unique.size(); ++i)
     {
-        auto [x, y] = getComponent(labels, height, width, unique[i]);
-        if ( x.size() != 0 && y.size() != 0)
+        auto unique_elem = unique[i];
+        auto [x, y] = getComponent(labels, height, width, unique_elem);
+        if ( x.size() != 0 && y.size() != 0 )
         {
             int min_x = *std::min_element(x.begin(), x.end());
             int max_x = *std::max_element(x.begin(), x.end());
@@ -110,7 +112,7 @@ std::vector<dlib::rectangle>
     for (size_t k = 1; k < stats.size(); ++k)
     {
         vector3d<float> segmap;
-        resize(segmap, 1, height, width);
+        resize(segmap, 1, height, width, 0.0f);
 
         int size = stats[k].square;
         if ( size < 10 ){
@@ -203,6 +205,7 @@ float RecognitionService::maxFromTextMap(const vector3d<float> &textMap,
                                          float valueK)
 {
     std::vector<float> retval;
+    retval.reserve(height * width);
 
     assert(hasSameSizes(labels, 1, height, width));
     assert(hasSameSizes(textMap, 1, height, width));

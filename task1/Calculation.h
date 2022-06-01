@@ -5,6 +5,9 @@
 #include <unordered_set>
 #include "helpers.h"
 
+void print( const std::vector<float>& data);
+void print(const std::vector<std::vector<float>>& data);
+
 class Calculation
 {
 public:

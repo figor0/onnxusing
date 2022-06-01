@@ -90,4 +90,5 @@ void SystemDrawingService::loadFloatArrFromFile(const std::string &fileName,
             fillable_array[i0][i1] = value;
         }
     }
+    std::cout << fillable_array.size() * fillable_array.at(0).size() << std::endl;
 }

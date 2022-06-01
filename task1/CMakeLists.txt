@@ -12,7 +12,7 @@ if ( PROFILE )
     add_compile_options(-fsanitize=leak)
 endif()
 file(COPY resources DESTINATION ${PROJECT_BINARY_DIR})
-set( CMAKE_CXX_FLAGS "-Wall -m64 -O3 " )
+#set( CMAKE_CXX_FLAGS "-Wall -m64 -O3 " )
 
 include(FindPkgConfig)
 
